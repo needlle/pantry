@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"pantry/api/business/model"
 	"pantry/api/business/services"
+	"pantry/api/controllers/dto"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -29,13 +29,23 @@ func (c *controller) GetFoodstuffs(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
-	return ctx.JSON(foodstuffs)
+	results := []dto.Foodstuff{}
+	for _, item := range foodstuffs {
+		foodstuff := dto.FromModel(*item)
+		results = append(results, foodstuff)
+	}
+	return ctx.JSON(results)
 }
 
 func (c *controller) CreateFoodstuff(ctx *fiber.Ctx) error {
-	foodstuff, err := c.foodstuffsService.CreateFoodstuff(&model.Foodstuff{Name: "Test"})
+	data := dto.Foodstuff{}
+	if err := ctx.BodyParser(&data); err != nil {
+		return ctx.Status(400).JSON(fiber.Map{"error": err.Error()})
+	}
+	foodstuff := dto.ToModel(data)
+	result, err := c.foodstuffsService.CreateFoodstuff(&foodstuff)
 	if err != nil {
 		return ctx.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
-	return ctx.JSON(foodstuff)
+	return ctx.JSON(dto.FromModel(*result))
 }

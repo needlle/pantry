@@ -1,7 +1,11 @@
 package repositories
 
-import "gorm.io/gorm"
+import (
+	"pantry/api/repositories/schema"
+
+	"gorm.io/gorm"
+)
 
 func Setup(db *gorm.DB) {
-	db.AutoMigrate(&Foodstuff{})
+	db.AutoMigrate(&schema.Foodstuff{})
 }

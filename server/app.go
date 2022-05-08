@@ -6,7 +6,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func New() *fiber.App {
+type App interface {
+	Listen(string) error
+}
+
+func New() App {
 	app := fiber.New()
 
 	app.Get("/healthcheck", func(c *fiber.Ctx) error {

@@ -11,5 +11,5 @@ func Setup(
 	foodstuffsController controllers.FoodstuffsController,
 ) {
 	router.Get("/foodstuffs", foodstuffsController.GetFoodstuffs)
-	router.Get("/foodstuffs/create", foodstuffsController.CreateFoodstuff)
+	router.Post("/foodstuffs", foodstuffsController.CreateFoodstuff)
 }

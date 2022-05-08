@@ -1,4 +1,4 @@
-package repositories
+package schema
 
 import (
 	"pantry/api/business/model"
@@ -12,16 +12,16 @@ type Foodstuff struct {
 	Name string
 }
 
-func toModel(record Foodstuff) model.Foodstuff {
+func ToModel(record Foodstuff) model.Foodstuff {
 	return model.Foodstuff{
 		ID:   int(record.ID),
 		Name: record.Name,
 	}
 }
 
-func fromModel(record model.Foodstuff) Foodstuff {
+func FromModel(entity model.Foodstuff) Foodstuff {
 	return Foodstuff{
-		ID:   uint(record.ID),
-		Name: record.Name,
+		ID:   uint(entity.ID),
+		Name: entity.Name,
 	}
 }

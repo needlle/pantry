@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"pantry/api/business/model"
+	"pantry/api/repositories/schema"
 
 	"gorm.io/gorm"
 )
@@ -24,21 +25,21 @@ func NewFoodstuffsRepository(db *gorm.DB) FoodstuffsRepository {
 }
 
 func (r repository) FindAll() ([]*model.Foodstuff, error) {
-	records := []*Foodstuff{}
+	records := []*schema.Foodstuff{}
 	results := []*model.Foodstuff{}
 	r.DB.Find(&records)
 	for _, item := range records {
-		foodstuff := toModel(*item)
+		foodstuff := schema.ToModel(*item)
 		results = append(results, &foodstuff)
 	}
 	return results, nil
 }
 
 func (r repository) Create(foodstuff *model.Foodstuff) (*model.Foodstuff, error) {
-	record := fromModel(*foodstuff)
+	record := schema.FromModel(*foodstuff)
 	if err := r.DB.Create(&record).Error; err != nil {
 		return &model.Foodstuff{}, err
 	}
-	result := toModel(record)
+	result := schema.ToModel(record)
 	return &result, nil
 }

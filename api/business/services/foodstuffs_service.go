@@ -21,17 +21,17 @@ func NewFoodstuffsService(foodstuffsRepository repositories.FoodstuffsRepository
 }
 
 func (s *service) GetFoodstuffs() ([]*model.Foodstuff, error) {
-	foodstuffs, err := s.foodstuffsRepository.FindAll()
+	results, err := s.foodstuffsRepository.FindAll()
 	if err != nil {
 		return []*model.Foodstuff{}, err
 	}
-	return foodstuffs, nil
+	return results, nil
 }
 
-func (s *service) CreateFoodstuff(data *model.Foodstuff) (*model.Foodstuff, error) {
-	foodstuff, err := s.foodstuffsRepository.Create(data)
+func (s *service) CreateFoodstuff(foodstuff *model.Foodstuff) (*model.Foodstuff, error) {
+	result, err := s.foodstuffsRepository.Create(foodstuff)
 	if err != nil {
 		return &model.Foodstuff{}, err
 	}
-	return foodstuff, nil
+	return result, nil
 }
